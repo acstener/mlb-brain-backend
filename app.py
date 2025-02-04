@@ -180,8 +180,8 @@ async def handle_client(websocket):
 
 async def start_server():
     """Start the WebSocket server."""
-    port = 8765  # Using consistent port 8765
-    host = "localhost"
+    port = int(os.getenv('PORT', '8765'))  # Get port from environment or use 8765
+    host = "0.0.0.0"  # Listen on all interfaces
     logger.info(f"Starting WebSocket server on ws://{host}:{port}")
     
     try:
