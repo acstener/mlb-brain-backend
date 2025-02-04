@@ -10,8 +10,8 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Expose the port
-ENV PORT=8080
-EXPOSE 8080
+ENV PORT=8765
+EXPOSE 8765
 
 # Run the application
 CMD ["python", "app.py"]
