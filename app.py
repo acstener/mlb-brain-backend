@@ -182,12 +182,15 @@ async def start_server():
     """Start the WebSocket server."""
     port = int(os.getenv('PORT', '8765'))  # Get port from environment or use 8765
     host = "0.0.0.0"  # Listen on all interfaces
-    logger.info(f"Starting WebSocket server on ws://{host}:{port}")
+    actual_port = int(os.getenv('PORT', '8765'))
+    logger.info(f"Starting WebSocket server on port {actual_port} (internal {port})")
+    logger.info(f"Environment: {os.environ.get('RAILWAY_ENVIRONMENT', 'local')}")
     
     try:
-        async with websockets.serve(handle_client, host, port):
-            logger.info(f"WebSocket server is running!")
-            await asyncio.Future()  # run forever
+        server = await websockets.serve(handle_client, host, port)
+        logger.info(f"Server sockets: {server.sockets}")
+        logger.info("WebSocket server is running and ready for connections!")
+        await asyncio.Future()  # run forever
     except Exception as e:
         logger.error(f"Failed to start server: {e}")
         logger.error(traceback.format_exc())
